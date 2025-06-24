@@ -1,0 +1,389 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - E-commerce</title>
+     <link rel="stylesheet" href="{% static 'products/styles.css' %}" />
+<style>
+
+a{ 
+    text-decoration: none;
+}
+
+    /* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* Header */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background-color: #1a1a1a;
+    color: white;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-links a {
+    margin: 0 1rem;
+    color: white;
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+/* Profile Container */
+.profile-container {
+    display: flex;
+    margin: 2rem;
+    gap: 2rem;
+}
+
+/* Sidebar */
+.sidebar {
+    background: white;
+    padding: 1.5rem;
+    width: 25%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.user-info {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+}
+
+.profile-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.profile-menu li {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    background: #eee;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.profile-menu li.active, .profile-menu li:hover {
+    background-color: #333;
+    color: white;
+}
+
+/* Profile Content */
+.profile-content {
+    flex: 1;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.product-card {
+    background: #fafafa;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.product-card img {
+    width: 100%;
+    max-height: 150px;
+    object-fit: contain;
+}
+
+.product-info h3 {
+    margin: 0.5rem 0;
+}
+
+.product-info button {
+    padding: 0.5rem 1rem;
+    background-color: crimson;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Order History */
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    background: #fafafa;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.history-item img {
+    width: 80px;
+    margin-right: 1rem;
+}
+
+.history-info {
+    flex: 1;
+}
+
+.status {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.status.delivered {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 1rem;
+    background: #1a1a1a;
+    color: white;
+    margin-top: 2rem;
+}
+
+</style>
+</head>
+<body>
+ <header class="header">
+    <!-- Logo Left -->
+    <div class="logo"><a href="{% url 'index' %}"><img  src="{% static 'products/images/logo Alpha.png' %}" alt="Hardware Store Logo" id="logo-img' %}" ></a> </div>
+
+     <!-- Desktop Navigation -->
+    <nav class="desktop-nav">
+      <span class="icon" id="searchIcon">&#128269;</span>
+      <div class="search-box-container" id="searchBoxContainer">
+        <input type="text" id="searchInput" placeholder="Search...">
+        <span class="search-submit-icon" id="submitSearch">&#10148;</span>
+      </div>
+       <a href="{% url 'about' %}">About Us</a>
+       <div class="dropdown">
+          <a href="#" class="dropdown-toggle">Products</a>
+
+     
+          <div class="dropdown-content">
+          <a href="{% url 'tanks' %}"><img src="{% static 'products/images/kentank 2000l.png' %}" alt=""> Tanks Collection</a>
+          <a href="{% url 'plumbing' %}"><img src="{% static 'products/images/ppr pipes.png' %}" alt=""> Plumbing Equipment</a>
+          <a href="{% url 'decor' %}"><img src="{% static 'products/images/decor lighting design.png' %}" alt=""> Home & Décor</a>
+          <a href="{% url 'lighting' %}"><img src="{% static 'products/images/square lights.png' %}" alt=""> Lighting &      Electricals</a>
+          <a href="{% url 'roofing' %}"><img src="{% static 'products/images/roof 2.png' %}" alt=""> Roofing & Construction</a>
+           </div>
+        </div>
+       <a href="{% url 'contact' %}">Contact Us</a>
+       <a href="{% url 'teams' %}">Team</a>
+   
+      
+        
+      </div>
+
+      <span class="icon cart-trigger">&#128722;<span class="badge" id="cart-count">0</span></span>
+      
+    </nav>
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+      <div class="mobile-search-wrapper">
+        <span class="icon" id="searchIconMobile">&#128269;</span>
+        <div class="search-box-container" id="mobileSearchBoxContainer">
+          <input type="text" id="mobileSearchInput" placeholder="Search...">
+          <span class="search-submit-icon" id="mobileSubmitSearch">&#10148;</span>
+        </div>
+      </div>
+
+      <span class="icon cart-trigger">&#128722;<span class="badge" id="cart-count">0</span></span>
+      <span class="menu-toggle" id="menuToggle">&#9776;</span>
+    </div>
+
+     <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="logo"><a href="{% url 'index' %}"><img  src="{% static 'products/images/logo Alpha.png' %}" alt="Hardware Store Logo" id="logo-img' %}" ></a> </div>
+       <a href="{% url 'tanks' %}"><img src="{% static 'products/images/kentank 2000l.png' %}" alt=""> Tanks Collection</a>
+          <a href="{% url 'plumbing' %}"><img src="{% static 'products/images/ppr pipes.png' %}" alt=""> Plumbing Equipment</a>
+          <a href="{% url 'decor' %}"><img src="{% static 'products/images/decor lighting design.png' %}" alt=""> Lighting & Electrical</a>
+          <a href="{% url 'lighting' %}"><img src="{% static 'products/images/square lights.png' %}" alt=""> Home & Décor</a>
+          <a href="{% url 'roofing' %}"><img src="{% static 'products/images/roof 2.png' %}" alt=""> Roofing & Construction</a>
+      <a href="{% url 'about' %}">About Us</a>
+      <a href="{% url 'contact' %}">Contact Us</a>
+      <a href="{% url 'teams' %}">Team</a>
+    </div>
+
+    <!-- Cart Panel -->
+   <div id="cart-panel" class="cart-panel">
+     <div class="cart-header">
+       <h2>Your Cart</h2>
+        <span id="close-cart" class="close-cart-btn">&times;</span>
+     </div>
+     <div id="cart-items" class="cart-items"></div>
+     <div class="cart-footer">
+      <div><strong>Total Amount: Ksh <span id="cart-total">0</span></strong></div>
+      <div> <button id="clearCartButton" style="width: 100%; background-color: red; color: white; padding: 10px; margin-bottom: 10px; border: none; border-radius: 5px;">Clear Cart</button></div>
+     </div>
+
+     <div style="background-color: rgb(8, 17, 139); width: 100%; padding: 10px;">
+      <button id="proceedToCheckout" style="width: 100%; padding: 12px; font-size: 16px; color: white; background-color: #049b31; border: none; border-radius: 5px;">
+      Proceed to Checkout
+      </button>
+     </div>
+
+     </div>
+    </div>
+  </header>
+
+
+
+
+    <main class="profile-container">
+        <aside class="sidebar">
+            <div class="user-info">
+                <img src="https://i.pravatar.cc/100" alt="User Avatar" class="avatar">
+                <h2>Jane Doe</h2>
+                <p>jane.doe@example.com</p>
+            </div>
+            <ul class="profile-menu">
+                <li class="active">My Cart</li>
+                <li>Order History</li>
+                <li>Wishlist</li>
+                <li>Account Settings</li>
+            </ul>
+        </aside>
+
+        <section class="profile-content">
+            <div class="tab" id="cart-tab">
+                <h2>My Cart</h2>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/150" alt="Product 1">
+                        <div class="product-info">
+                            <h3>Wireless Headphones</h3>
+                            <p>$89.99</p>
+                            <button>Remove</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/150" alt="Product 2">
+                        <div class="product-info">
+                            <h3>Smartwatch X3</h3>
+                            <p>$149.99</p>
+                            <button>Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab" id="history-tab" style="display: none;">
+                <h2>Order History</h2>
+                <div class="history-list">
+                    <div class="history-item">
+                        <img src="https://via.placeholder.com/100" alt="">
+                        <div class="history-info">
+                            <h4>4K Monitor</h4>
+                            <p>Ordered on: May 21, 2025</p>
+                            <p>Total: $249.99</p>
+                        </div>
+                        <span class="status delivered">Delivered</span>
+                    </div>
+                    <div class="history-item">
+                        <img src="https://via.placeholder.com/100" alt="">
+                        <div class="history-info">
+                            <h4>Bluetooth Keyboard</h4>
+                            <p>Ordered on: May 18, 2025</p>
+                            <p>Total: $59.99</p>
+                        </div>
+                        <span class="status pending">Pending</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Wishlist and Account Settings later if needed -->
+        </section>
+    </main>
+
+     <footer class="footer">
+    <div class="footer-links">
+      <a href="{% url 'index' %}"><imgsrc="{% static 'products/images/logo Alpha.png' %}" alt=""> Home</a>
+       <a href="{% url 'tanks' %}"><imgsrc="{% static 'products/images/kentank 2000l.png' %}" alt=""> Tanks </a>
+          <a href="{% url 'plumbing' %}"><imgsrc="{% static 'products/images/ppr pipes.png' %}" alt=""> Plumbing Equipment</a>
+          <a href="{% url 'decor' %}"><imgsrc="{% static 'products/images/decor lighting design.png' %}" alt="">Home & Décor</a>
+          <a href="{% url 'lighting' %}"><imgsrc="{% static 'products/images/square lights.png' %}" alt=""> Lighting & Electrical</a>
+          <a href="{% url 'roofing' %}"><imgsrc="{% static 'products/images/roof 2.png' %}" alt=""> Roofing & Construction</a>
+      <a href="{% url 'contact' %}">Contact Us</a>
+    <div class="footer-contact">
+      <p>Contact Us: +254 117 484 887</p>
+      <p>Email: Alphaltd21@gmail.com
+    <div class="footer-hours">
+      <p>Open Days: Mon - Sat</p>
+
+      <p>Hours: 8:00 AM - 6:00 PM</p>
+    </div>
+  </div>
+  <div class="social-media">
+    <a href="https://www.facebook.com/Alphaelectricalsandplumbing' %}" target="_blank" aria-label="Facebook"> <i class="fab fa-facebook"></i> </a>
+    <a href="https://www.facebook.com/AlphaElectricalsandplumbing' %}" target="_blank" aria-label="Facebook"> <i class="fab fa-instagram "></i> </a>
+    <a href="https://www.youtube.com/shorts/" target="_blank" aria-label="YouTube Shorts"><i class="fab fa-youtube"></i></a>
+    <a href="https://www.tiktok.com/@AlphaElectricalsandplumb" target="_blank" aria-label="TikTok"> <i class="fab fa-tiktok"></i> </a>
+    
+  </div>
+    <p class="footer-text">Alpha Electricals & Plumbing Ltd © 2025</p>
+  </footer>
+
+    <script>
+        // Simple tab switching logic
+        const tabs = document.querySelectorAll('.profile-menu li');
+        const tabContents = document.querySelectorAll('.tab');
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(tc => tc.style.display = 'none');
+
+                tab.classList.add('active');
+                tabContents[index].style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

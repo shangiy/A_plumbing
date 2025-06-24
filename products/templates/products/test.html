@@ -1,0 +1,287 @@
+  <link rel="stylesheet" href="{% static 'products/styles.css' %}" />
+
+
+  // ---------- Cart Logic ----------
+const cartIconTriggers = document.querySelectorAll(".cart-trigger");
+const cartPanel = document.getElementById("cart-panel");
+const closeCartBtn = document.getElementById("close-cart");
+const cartItemsContainer = document.getElementById("cart-items");
+const cartTotal = document.getElementById("cart-total");
+const cartCountEls = document.querySelectorAll("#cart-count");
+const clearCartButton = document.getElementById("clearCartButton");
+emptyCartMessage.innerHTML = `
+  <p>Your cart is empty</p>
+  <a href="${URLS.index}" class="btn" id="continueShoppingBtn" style="background-color: #0083b0; color: white;">Continue Shopping</a>
+`;
+
+cartItemsContainer.parentNode.insertBefore(emptyCartMessage, cartItemsContainer.nextSibling);
+
+// ❌ REMOVE this line
+// if (typeof URLS !== "undefined" && URLS.index) {
+//   window.location.href = URLS.index;
+// }
+
+// ✅ INSTEAD add this listener
+document.addEventListener('DOMContentLoaded', () => {
+  const continueBtn = document.getElementById("continueShoppingBtn");
+  if (continueBtn) {
+    continueBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (typeof URLS !== "undefined" && URLS.index) {
+        window.location.href = URLS.index;
+      } else {
+        window.location.href = "/";
+      }
+    });
+  }
+});
+
+
+// Initialize cart from localStorage or empty array
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+// Load and update cart on page load
+document.addEventListener("DOMContentLoaded", updateCartUI);
+
+// Open Cart
+cartIconTriggers.forEach(icon => {
+  icon.addEventListener("click", () => {
+    cartPanel.classList.add("open");
+  });
+});
+
+// Close Cart (X button)
+closeCartBtn.addEventListener("click", () => {
+  cartPanel.classList.remove("open");
+});
+
+// Update Cart UI
+function updateCartUI() {
+  // Clear existing items
+  cartItemsContainer.innerHTML = "";
+  
+  // Calculate total and count
+  let total = 0;
+  let itemCount = 0;
+
+  cart.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.classList.add("cart-item");
+    div.innerHTML = `
+      <span>${item.name} - Ksh ${item.price.toLocaleString()}</span>
+      <span class="remove-btn" data-index="${index}">&times;</span>
+    `;
+    cartItemsContainer.appendChild(div);
+    total += parseFloat(item.price);
+    itemCount++;
+  });
+
+  // Update totals
+  cartTotal.textContent = total.toLocaleString();
+  cartCountEls.forEach(el => el.textContent = itemCount);
+
+  // Add remove listeners
+  document.querySelectorAll(".remove-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      const index = e.target.getAttribute("data-index");
+      cart.splice(index, 1);
+      saveCart();
+      updateCartUI();
+    });
+  });
+
+  // Show/hide empty message
+  if (cart.length === 0) {
+    emptyCartMessage.style.display = "block";
+    cartItemsContainer.style.display = "none";
+  } else {
+    emptyCartMessage.style.display = "none";
+    cartItemsContainer.style.display = "block";
+  }
+}
+
+// Save cart to localStorage
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+// Clear Cart Function
+clearCartButton.addEventListener("click", function() {
+  // Reset cart array
+  cart = [];
+  
+  // Update localStorage
+  saveCart();
+  
+  // Update UI
+  updateCartUI();
+  
+  // Show confirmation
+  alert("Confirm, you want to clear cart items!");
+});
+
+// Add to Cart Function
+function addToCart(name, price) {
+  // Check if item already exists in cart
+  const existingItem = cart.find(item => item.name === name);
+  
+  if (existingItem) {
+    // If item exists, increase quantity instead of adding duplicate
+    existingItem.quantity = (existingItem.quantity || 1) + 1;
+  } else {
+    // Add new item with quantity 1
+    cart.push({ 
+      name: name, 
+      price: price,
+      quantity: 1
+    });
+  }
+  
+  // Save and update
+  saveCart();
+  updateCartUI();
+}
+// Add this to your existing cart logic section
+
+// Close cart when clicking outside
+document.addEventListener('click', function(event) {
+  const isClickInsideCart = cartPanel.contains(event.target);
+  const isClickOnCartTrigger = Array.from(cartIconTriggers).some(trigger => 
+    trigger.contains(event.target)
+  );
+  
+  if (!isClickInsideCart && !isClickOnCartTrigger && cartPanel.classList.contains('open')) {
+    cartPanel.classList.remove('open');
+  }
+});
+// Initialize product buttons - only once!
+function initializeProductButtons() {
+  document.querySelectorAll('.product-item button').forEach(button => {
+    // Remove any existing click handlers first
+    button.removeEventListener('click', handleAddToCart);
+    // Add new click handler
+    button.addEventListener('click', handleAddToCart);
+  });
+}
+
+function handleAddToCart() {
+  const product = this.closest('.product-item');
+  const name = product.querySelector('h3').textContent;
+  const priceText = product.querySelector('.price').textContent;
+  const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
+  
+  addToCart(name, price);
+}
+
+// Initialize only once when DOM is loaded
+document.addEventListener("DOMContentLoaded", function() {
+  updateCartUI();
+  initializeProductButtons();
+});
+
+
+
+
+<style>
+     a{
+
+      text-decoration: none;
+    }
+    a:hover{
+
+      color: red;
+    }
+    a:active{
+
+      color:blue;
+    }
+
+    .service-layout {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 40px; /* space between text and circles */
+  flex-wrap: wrap;
+}
+
+.service-text {
+  flex: 1;
+  max-width: 600px;
+  text-align: left;
+}
+
+.trend-circles {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+  
+      /* Ensure consistent circle styling */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  gap: 5px;
+  padding: 30px 0;
+}
+
+/* Position the 1st second circles in the second row */
+.circle-container {
+  position: relative;
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  width: 200px; /* Fixed width for consistency */}
+.circle-container:nth-child(1) {
+  grid-row: 0;
+  grid-column: 3;
+}.circle-container:nth-child(2) {
+  grid-row: 2;
+  grid-column: 2;
+}
+.circle-container:nth-child(3) {
+  grid-row: 1;
+  grid-column: 1;
+}
+    svg {
+      transform: rotate(-90deg);
+    }
+
+    .progress-ring__bg {
+      stroke: #eee;
+      fill: none;
+      stroke-width: 12;
+    }
+
+    .progress-ring__circle {
+      stroke: #00db49;
+      stroke-linecap: round;
+      fill: none;
+      stroke-dasharray: 0;
+      stroke-dashoffset: 0;
+      
+      
+    }
+
+    .circle-number {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .circle-label {
+  margin-top: 25px;
+  text-align: absolute;
+  font-size: 16px;
+  width: 100%;
+  max-width: 180px;
+  word-wrap: break-word;
+  font-weight: 500;
+}

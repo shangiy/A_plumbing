@@ -1,0 +1,423 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alpha Electricals & Plumbing Ltd</title>
+  <link rel="stylesheet" href="{% static 'products/styles.css' %}" />
+  <script defer src="script.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    a{
+
+      text-decoration: none;
+    }
+    a:hover{
+
+      color: red;
+    }
+    a:active{
+
+      color:blue;
+    }
+    /* Featured Products Section */
+    .featured-products {
+      padding: 50px 0;
+      text-align: center;
+    }
+
+   .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); /* 4 columns */
+      gap: 20px;
+      padding: 0 160px;
+    }
+
+    .product-item {
+      background: #f4f4f4;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .product-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .product-item h3 {
+      margin-top: 10px;
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    .product-item .price {
+      margin: 10px 0;
+      font-size: 1rem;
+      color: #666;
+    }
+
+    .product-item button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .product-item button:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .products-grid {
+        grid-template-columns: 1fr; /* 1 column on small screens */
+      }
+    }
+  </style>
+</head>
+<body>
+
+ 
+  <!-- HEADER SECTION -->
+  <header class="header">
+    <!-- Logo Left -->
+    <div class="logo"><a href="{% url 'index' %}"><img  src="{% static 'products/images/logo Alpha.png' %}" alt="Hardware Store Logo" id="logo-img' %}" ></a> </div>
+
+     <!-- Desktop Navigation -->
+    <nav class="desktop-nav">
+      <span class="icon" id="searchIcon">&#128269;</span>
+      <div class="search-box-container" id="searchBoxContainer">
+        <input type="text" id="searchInput" placeholder="Search...">
+        <span class="search-submit-icon" id="submitSearch">&#10148;</span>
+      </div>
+       <a href="{% url 'about' %}">About Us</a>
+       <div class="dropdown">
+          <a href="#" class="dropdown-toggle">Products</a>
+
+     
+          <div class="dropdown-content">
+          <a href="{% url 'tanks' %}"><img src="{% static 'products/images/kentank 2000l.png' %}" alt=""> Tanks Collection</a>
+          <a href="{% url 'plumbing' %}"><img src="{% static 'products/images/ppr pipes.png' %}" alt=""> Plumbing Equipment</a>
+          <a href="{% url 'decor' %}"><img src="{% static 'products/images/decor lighting design.png' %}" alt=""> Home & Décor</a>
+          <a href="{% url 'lighting' %}"><img src="{% static 'products/images/square lights.png' %}" alt=""> Lighting &      Electricals</a>
+          <a href="{% url 'roofing' %}"><img src="{% static 'products/images/roof 2.png' %}" alt=""> Roofing & Construction</a>
+           </div>
+        </div>
+       <a href="{% url 'contact' %}">Contact Us</a>
+       <a href="{% url 'teams' %}">Team</a>
+   
+      
+        
+      </div>
+
+      <span class="icon cart-trigger">&#128722;<span class="badge" id="cart-count">0</span></span>
+      
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+      <div class="mobile-search-wrapper">
+        <span class="icon" id="searchIconMobile">&#128269;</span>
+        <div class="search-box-container" id="mobileSearchBoxContainer">
+          <input type="text" id="mobileSearchInput" placeholder="Search...">
+          <span class="search-submit-icon" id="mobileSubmitSearch">&#10148;</span>
+        </div>
+      </div>
+
+      <span class="icon cart-trigger">&#128722;<span class="badge" id="cart-count">0</span></span>
+      <span class="menu-toggle" id="menuToggle">&#9776;</span>
+    </div>
+
+     <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="logo"><a href="{% url 'index' %}"><img  src="{% static 'products/images/logo Alpha.png' %}" alt="Hardware Store Logo" id="logo-img' %}" ></a> </div>
+       <a href="{% url 'tanks' %}"><img src="{% static 'products/images/kentank 2000l.png' %}" alt=""> Tanks Collection</a>
+          <a href="{% url 'plumbing' %}"><img src="{% static 'products/images/ppr pipes.png' %}" alt=""> Plumbing Equipment</a>
+          <a href="{% url 'decor' %}"><img src="{% static 'products/images/decor lighting design.png' %}" alt=""> Lighting & Electrical</a>
+          <a href="{% url 'lighting' %}"><img src="{% static 'products/images/square lights.png' %}" alt=""> Home & Décor</a>
+          <a href="{% url 'roofing' %}"><img src="{% static 'products/images/roof 2.png' %}" alt=""> Roofing & Construction</a>
+      <a href="{% url 'about' %}">About Us</a>
+      <a href="{% url 'contact' %}">Contact Us</a>
+      <a href="{% url 'teams' %}">Team</a>
+    </div>
+
+    <!-- Cart Panel -->
+    <div id="cart-panel" class="cart-panel">
+     <div class="cart-header">
+       <h2>Your Cart</h2>
+        <span id="close-cart" class="close-cart-btn">&times;</span>
+     </div>
+     <div id="cart-items" class="cart-items"></div>
+     <div class="cart-footer">
+      <div><strong>Total Amount: Ksh <span id="cart-total">0</span></strong></div>
+      <div> <button id="clearCartButton" style="width: 100%; background-color: red; color: white; padding: 10px; margin-bottom: 10px; border: none; border-radius: 5px;">Clear Cart</button></div>
+     </div>
+
+     <div style="background-color: rgb(8, 17, 139); width: 100%; padding: 10px;">
+      <button id="proceedToCheckout" style="width: 100%; padding: 12px; font-size: 16px; color: white; background-color: #049b31; border: none; border-radius: 5px;">
+      Proceed to Checkout
+      </button>
+     </div>
+
+     </div>
+    </div>
+  </header>
+
+
+<!-- Featured Products Section for Roofing -->
+<section class="featured-products">
+    <div class="container">
+      <h2>Roofing & Fencing Collection</h2>
+      <div class="products-grid">
+        <!-- Product Item 1 -->
+      
+      {% for item in roof %}
+      <div class="product-item">
+        <img src="{{ item.image.url }}" alt={{item.product_name}}>
+        <h3>{{item.product_name}}</h3>
+        <p class="price">{{item.price}}</p>
+        <button onclick="addToCart(item.product_name, item.price)">Add to Cart</button>
+      </div>
+{% endfor %}
+    
+    </div>
+  </section>
+  
+  
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="{% url 'index' %}"><imgsrc="{% static 'products/images/logo Alpha.png' %}" alt=""> Home</a>
+       <a href="{% url 'tanks' %}"><imgsrc="{% static 'products/images/kentank 2000l.png' %}" alt=""> Tanks </a>
+          <a href="{% url 'plumbing' %}"><imgsrc="{% static 'products/images/ppr pipes.png' %}" alt=""> Plumbing Equipment</a>
+          <a href="{% url 'decor' %}"><imgsrc="{% static 'products/images/decor lighting design.png' %}" alt="">Home & Décor</a>
+          <a href="{% url 'lighting' %}"><imgsrc="{% static 'products/images/square lights.png' %}" alt=""> Lighting & Electrical</a>
+          <a href="{% url 'roofing' %}"><imgsrc="{% static 'products/images/roof 2.png' %}" alt=""> Roofing & Construction</a>
+      <a href="{% url 'contact' %}">Contact Us</a>
+    </div>
+    <div class="footer-contact">
+      <p>Contact Us: +254 117 484 887</p>
+      <p>Email: Alphaltd21@gmail.com
+    <div class="footer-hours">
+      <p>Open Days: Mon - Sat</p>
+
+      <p>Hours: 8:00 AM - 6:00 PM</p>
+    </div>
+  </div>
+  <div class="social-media">
+    <a href="https://www.facebook.com/Alphaelectricalsandplumbing" target="_blank" aria-label="Facebook"> <i class="fab fa-facebook"></i> </a>
+    <a href="https://www.facebook.com/AlphaElectricalsandplumbing" target="_blank" aria-label="Facebook"> <i class="fab fa-instagram "></i> </a>
+    <a href="https://www.youtube.com/shorts/" target="_blank" aria-label="YouTube Shorts"><i class="fab fa-youtube"></i></a>
+    <a href="https://www.tiktok.com/@AlphaElectricalsandplumb" target="_blank" aria-label="TikTok"> <i class="fab fa-tiktok"></i> </a>
+    
+  </div>
+    <p class="footer-text">Alpha Electricals & Plumbing Ltd © 2025</p>
+  </footer>
+
+<!-- Checkout Modal Overlay -->
+<div id="checkoutOverlay" class="checkout-overlay">
+  <iframe src="checkout.html" frameborder="0" id="checkoutIframe"></iframe>
+  <button id="closeCheckout" class="close-checkout">×</button>
+</div>
+
+<!-- Scroll Progress Button -->
+<div id="scrollToTop" class="scroll-progress">
+  <svg class="progressing-ring" width="60" height="60">
+    <circle class="progressing-ring__circle" stroke="#00c389" stroke-width="4" fill="transparent" r="26" cx="30" cy="30" />
+  </svg>
+  <span class="scroll-arrow">↑</span>
+</div>
+<!-- WhatsApp Chat Button -->
+<div id="whatsapp-chat-button" style="
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9999;
+  cursor: pointer; ">
+  <img src="{% static 'products/images/whatsapp--v1.png' %}" alt="Chat with us" style="width: 70px; height: 70px;" />
+</div>
+
+<!-- WhatsApp Chat Popup -->
+<div id="whatsapp-popup" style="
+    display: none;
+    position: fixed;
+    bottom: 100px;
+    left: 20px;
+    width: 300px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 9999;
+    border-radius: 8px;
+    overflow: hidden; ">
+  <div class="chat-header">
+    <span>Chat with us on WhatsApp</span>
+    <button id="close-whatsapp">×</button>
+  </div>
+  <div class="chat-body">
+    <input id="waMessage" type="text" placeholder="Type your message..." />
+    <button id="sendToWhatsapp">Send</button>
+  </div>
+</div>
+<script>
+  const scrollBtn = document.getElementById('scrollToTop');
+  const progressingCircle = document.querySelector('.progressing-ring__circle');
+  const radius = progressingCircle.r.baseVal.value;
+  const circumference = 2 * Math.PI * radius;
+
+  progressingCircle.style.strokeDasharray = `${circumference}`;
+  progressingCircle.style.strokeDashoffset = `${circumference}`;
+
+  function setProgress(percent) {
+    const offset = circumference - percent / 100 * circumference;
+    progressingCircle.style.strokeDashoffset = offset;
+  }
+
+  function updateProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    const scrollPercent = (scrollTop / docHeight) * 100;
+    setProgress(scrollPercent);
+
+     if (scrollTop > 200) {
+  scrollBtn.classList.add('show');
+} else {
+  scrollBtn.classList.remove('show');
+}
+  }
+
+  window.addEventListener('scroll', updateProgress);
+
+  scrollBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Initial state
+  updateProgress();
+  // WhatsApp Chat
+  const waBtn = document.getElementById('whatsapp-chat-button');
+  const waPopup = document.getElementById('whatsapp-popup');
+  const waClose = document.getElementById('close-whatsapp');
+  const waSend = document.getElementById('sendToWhatsapp');
+
+  waBtn.addEventListener('click', () => {
+    waPopup.style.display = 'block';
+  });
+
+  waClose.addEventListener('click', () => {
+    waPopup.style.display = 'none';
+  });
+
+  waSend.addEventListener('click', () => {
+    const msg = document.getElementById('waMessage').value.trim();
+    if (msg) {
+      const encodedMsg = encodeURIComponent(msg);
+      window.open(`https://wa.me/254117484887?text=${encodedMsg}`, '_blank');
+    }
+  });
+</script>
+<script>
+  const tiktokVideos = document.querySelectorAll('.tiktok-video');
+
+  tiktokVideos.forEach(video => {
+    video.addEventListener('mouseenter', () => {
+      video.play();
+    });
+
+    video.addEventListener('mouseleave', () => {
+      video.pause();
+      video.currentTime = 0;
+    });
+  });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const progressRings = document.querySelectorAll('.progress');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const progressEl = entry.target;
+      const bar = progressEl.querySelector('.bar');
+      const percent = parseInt(progressEl.getAttribute('data-progress'), 10);
+      const radius = bar.r.baseVal.value;
+      const circumference = 2 * Math.PI * radius;
+
+      if (entry.isIntersecting) {
+        // Animate
+        const offset = circumference - (percent / 100) * circumference;
+        bar.style.strokeDashoffset = offset;
+      } else {
+        // Reset
+        bar.style.strokeDashoffset = circumference;
+      }
+    });
+  }, { threshold: 0.5 });
+
+  progressRings.forEach(ring => {
+    const bar = ring.querySelector('.bar');
+    const radius = bar.r.baseVal.value;
+    const circumference = 2 * Math.PI * radius;
+
+    bar.style.strokeDasharray = circumference;
+    bar.style.strokeDashoffset = circumference;
+
+    observer.observe(ring);
+  });
+});
+</script>
+
+<script>
+  document.getElementById("proceedToCheckout").addEventListener("click", () => {
+    const totalText = document.getElementById("cart-total").textContent.trim(); // e.g. "62,650.00"
+    const cleanAmount = totalText.replace(/,/g, ""); // → "62650.00"
+    localStorage.setItem("checkoutAmount", cleanAmount);
+    window.location.href = "checkout.html"; // OR show iframe if using modal
+  });
+  localStorage.setItem("cartItems", JSON.stringify(cart));
+  localStorage.setItem("checkoutAmount", cleanAmount);
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const clearCartBtn = document.getElementById('clearCartButton');
+  if (clearCartBtn) {
+    clearCartBtn.addEventListener('click', function () {
+      // Clear the cart and item counter
+      localStorage.removeItem('cart');         // Remove all cart items
+      localStorage.removeItem('cartItemId');   // Reset the item ID counter
+
+      // Reset cart display
+      document.getElementById('cart-count').textContent = '0';
+      document.getElementById('cart-total').textContent = '0';
+      const cartItemsContainer = document.getElementById('cart-items');
+      if (cartItemsContainer) {
+        cartItemsContainer.innerHTML = '';     // Empty the cart items list
+      }
+
+      // Optionally show empty cart message
+      const emptyMsg = document.getElementById('cart-empty');
+      if (emptyMsg) {
+        emptyMsg.style.display = 'block';
+      }
+    });
+  }
+});
+
+
+</script>
+
+</body>
+</html>
